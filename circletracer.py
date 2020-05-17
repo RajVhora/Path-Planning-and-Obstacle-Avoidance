@@ -26,12 +26,11 @@ green = 0, 255, 0
 cyan = 0, 180, 105
 maroon = 119, 27, 7
 
-obst1 = [450, 300, 250]
-#obst2 = [435, 300, 25]
-#obst3 = [575, 250, 50]
-#obst4 = [600, 400, 45]
-#obst = [obst1, obst2, obst3, obst4]
-obst = [obst1]
+obst1 = [325, 300, 50]
+obst2 = [435, 300, 25]
+obst3 = [575, 250, 50]
+obst4 = [600, 400, 45]
+obst = [obst1, obst2, obst3, obst4]
 path = []
 gr = 10     #Grace Radius variables
 
@@ -40,10 +39,10 @@ screen = pygame.display.set_mode((900, 600))
 
 def init_obstacles():  # Later run in for loop
     for q in obst:
+        pygame.draw.circle(screen, green, q[0:2], q[2]+gr, 0)
         pygame.draw.circle(screen, maroon, q[0:2], q[2], 0)
-        r = int(q[2])
-        r = r + gr
-        q[2] = r
+        q[2] = q[2] + 10
+        
 
 def reset():
     screen.fill((240, 240, 0))
@@ -113,9 +112,32 @@ def findpath(start, end):
             temp = sol.Solver(i, path[-1], end,dangle)
             path = path + temp
     path.append(end)
+    path = refine(path,obstacles)
     if len(obstacles) == 0:
         path.append(end)
     return path
+
+def lastpt(path,obstacles,start):
+    for i in path[::-1]:
+        thisisgood = True
+        obst = inmypath(obstacles,start,i)
+        for j in obstacles:
+            if j in obst:
+                thisisgood = False
+                break
+        if thisisgood:
+            return i
+
+def refine(path,obstacles):
+    refinedpath = [path[0]]
+    startpt = path[0]
+    startptidx = 0
+    while(startpt is not path[-1]):
+        lastpoint = lastpt(path[startptidx:],obstacles,refinedpath[-1])
+        refinedpath.append(lastpoint)
+        startpt = lastpoint
+        startptidx = path.index(startpt)
+    return refinedpath
 
 
 screen.fill((240, 240, 0))

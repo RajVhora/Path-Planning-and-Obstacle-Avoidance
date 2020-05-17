@@ -5,7 +5,7 @@ class Solver():
 
         a = obst[0]
         b = obst[1]
-        r = obst[2]
+        r = obst[2] + 10
 
         c = start[0]
         d = start[1]
