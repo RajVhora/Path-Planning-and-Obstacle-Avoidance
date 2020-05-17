@@ -54,21 +54,6 @@ def reset():
 def dist_between(a, b):
     return ((a[0]-b[0])**2 + (a[1]-b[1])**2)**0.5
 
-
-def OptimisePathDistance(ipos, destiny):
-    finaldestiny = [ipos]
-    while(len(destiny) > 0):
-        dist_row = []
-        for i in destiny:
-            dist_row.append(dist_between(i, finaldestiny[-1]))
-        mini = sorted(dist_row)
-        nearwaypt = destiny[dist_row.index(mini[0])]
-        finaldestiny.append(nearwaypt)
-        # now remove nearwaypt from destiny
-        destiny.remove(nearwaypt)
-    return finaldestiny
-
-
 def sortedobstacles(obstacles, start):
     distances = []
     for o in obstacles:
@@ -161,7 +146,6 @@ while True:
                 goalset += 1
             if event.type == pygame.QUIT:
                 pygame.quit()
-    destiny = OptimisePathDistance(start, destiny[1:n])
     for i in range(0, len(destiny)-1):
         path = findpath(destiny[i], destiny[i+1])
         print(path)
