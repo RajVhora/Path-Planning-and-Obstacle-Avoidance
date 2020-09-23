@@ -11,10 +11,7 @@
 # (You must get till end by this and repeat this for all start-end pairs)
 
 import pygame
-import math
-import sys
-import random
-from math import *
+from math import floor, acos, pi
 from pygame import *
 from CircletraceSolver import Solver
 
@@ -81,7 +78,7 @@ def sortedobstacles(obstacles, start):
     return sl
 
 
-def f(p,q,x1,y1,x2,y2):
+def f(p,q,x1,y1,x2,y2): ##Tells whether this is a obstacle or not
 	t = ((y1-q)*(y2-y1)+(x2-x1)*(x1-p))*((y2-q)*(y2-y1)+(x2-x1)*(x2-p))
 	if t<0:
 		return True
